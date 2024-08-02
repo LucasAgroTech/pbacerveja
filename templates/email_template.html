@@ -1,0 +1,102 @@
+<!-- templates/email_template.html -->
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.2" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        color: #444444; /* Cor do texto em preto */
+        text-align: justify;
+      }
+      .container {
+        max-width: 600px;
+        margin: auto;
+        background: #fff;
+        padding: 20px;
+        margin-left: 5px;
+      }
+      .header-img {
+        width: 100%; /* Faz a imagem ocupar toda a largura do container */
+        height: auto; /* Mantém a proporção da imagem */
+        display: block; /* Exibe a imagem como um bloco */
+        margin: 0 auto; /* Centraliza a imagem horizontalmente */
+      }
+      h1,
+      h2 {
+        color: #5c4033; /* Tons escuros de marrom para h1 e h2 */
+      }
+      .footer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        padding-left: 10px;
+        background: #be5d1b; /* Cor de fundo do rodapé em um tom marrom */
+        color: #ffffff; /* Cor do texto no rodapé em branco para contraste */
+      }
+      .logo {
+        width: 60px; /* Ajuste a largura conforme necessário */
+        margin-right: 10px;
+      }
+      .address {
+        font-size: 0.9em;
+        text-align: left;
+        max-width: 90%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <img
+        class="header-img"
+        src="https://i.imgur.com/RAahr3v.png"
+        alt="Logo da Empresa"
+      />
+      <h1>Confirmação de Inscrição</h1>
+      <h2>Prezado(a) {{ nome }},</h2>
+      <p>
+        Agradecemos sua inscrição para o
+        <strong>PRÊMIO CNA BRASIL ARTESANAL 2024 – MEL</strong>. Este concurso é
+        uma oportunidade única para mostrar a qualidade e a sustentabilidade do
+        seu mel, e também para compartilhar sua história com o mundo.
+      </p>
+      <p>
+        A seguir, confirmamos os detalhes e o cronograma de sua participação:
+      </p>
+      <ul>
+        <li>Inscrição: Confirmada</li>
+        <li>Envio de amostras: Até 21 de julho de 2024</li>
+        <li>
+          Endereço para envio: SGAN Quadra 601, Módulo K - Ed. Antônio Ernesto
+          de Salvo, Brasília - Distrito Federal, CEP: 70830-903
+        </li>
+      </ul>
+      <p>
+        Lembre-se de enviar as amostras conforme as especificações do
+        regulamento para garantir sua participação efetiva no concurso. Qualquer
+        amostra recebida após o dia 21 de julho será automaticamente
+        desclassificada.
+      </p>
+      <p>Atenciosamente,</p>
+      <p>Equipe do Prêmio CNA Brasil Artesanal 2024 – Mel</p>
+
+      <div class="footer">
+        <img
+          src="https://i.imgur.com/tAZu4tq.png"
+          alt="Logo da Empresa"
+          class="logo"
+        />
+        <div class="address">
+          SGAN Quadra 601, Módulo K - Ed. Antônio Ernesto de Salvo<br />
+          Brasília - Distrito Federal, CEP: 70830-903.<br />
+          Sistema CNA/SENAR/ICNA.
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

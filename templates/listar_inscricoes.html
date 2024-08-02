@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ICNA | INSCRIÇÕES REALIZADAS</title>
+    <link rel="icon" href="static/favicon.svg" type="image/svg+xml" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      window.onload = function () {
+        var modal = document.getElementById("modalSenha");
+        modal.style.display = "block";
+      };
+
+      function verificarSenha() {
+        var senhaCorreta = "mel123"; // Modify as necessary
+        var senhaUsuario = document.getElementById("inputSenha").value;
+
+        if (senhaUsuario === senhaCorreta) {
+          document.getElementById("conteudoProtegido").style.filter = "none";
+          document.getElementById("modalSenha").style.display = "none";
+        } else {
+          alert("Senha incorreta!");
+        }
+      }
+
+      function excluirInscricao(inscricaoId) {
+        if (confirm("Você tem certeza que deseja excluir esta inscrição?")) {
+          fetch(`/delete/${inscricaoId}`, {
+            method: "POST",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.success) {
+                alert("Inscrição excluída com sucesso!");
+                window.location.reload();
+              } else {
+                alert("Erro ao excluir inscrição: " + data.error);
+              }
+            })
+            .catch((error) => console.error("Erro ao excluir:", error));
+        }
+      }
+    </script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        color: #005146;
+        padding: 20px;
+      }
+      h1 {
+        color: #fff;
+        margin-top: 24px;
+        font-size: 30px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        padding: 10px;
+        border: 1px solid #005146;
+      }
+      thead {
+        background-image: radial-gradient(circle at left, #005146, #0f4d11);
+        color: #fff;
+        text-align: left;
+        border: 1px solid #fff;
+      }
+      tbody tr:hover {
+        background-image: radial-gradient(circle at left, #0051462d, #0051460f);
+      }
+      a {
+        color: #005146;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      .header-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .download-btn {
+        display: inline-block;
+        padding: 10px 20px;
+        background-image: linear-gradient(to bottom, #fff, #fff);
+        color: #005146;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        box-shadow: 2px 2px 0px #005146; /* Sombra branca sólida */
+      }
+      .download-btn:hover {
+        background-color: #a8963e;
+      }
+      .header-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-image: radial-gradient(circle at left, #005146, #0f4d11);
+        padding-left: 15px;
+        padding-right: 15px;
+        border: solid 1px #308176;
+        border-radius: 10px 10px 0 0;
+      }
+      footer {
+        display: flex;
+        align-items: center; /* Alinha os itens no centro verticalmente */
+        justify-content: space-between; /* Distribui espaço entre os elementos */
+        text-align: left; /* Mantém o texto à esquerda */
+        font-size: 16px; /* Tamanho da fonte */
+        color: #fff; /* Cor do texto */
+        background-image: radial-gradient(circle at left, #005146, #0f4d11);
+        padding-left: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-radius: 0 0 10px 10px;
+        border: solid 1px #005146;
+      }
+
+      #linhaContagem {
+        text-align: right; /* Alinha o texto à direita */
+        margin-right: 10px; /* Margem à direita para não colar na borda */
+      }
+
+      .logo-title-container {
+        /* Estilos para o novo contêiner */
+        display: flex;
+        align-items: center;
+      }
+      i {
+        margin-right: 3px;
+      }
+
+      .modal {
+        display: none; /* Inicialmente escondido */
+        position: fixed; /* Fica por cima de tudo */
+        z-index: 1000; /* Garante que fique no topo */
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* Permite rolagem se o conteúdo for muito grande */
+        background-color: rgba(
+          0,
+          0,
+          0,
+          0.4
+        ); /* Fundo escuro semi-transparente */
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto; /* Centraliza o modal na página */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 30%; /* Ajuste a largura conforme necessário */
+        border-radius: 10px; /* Bordas arredondadas */
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2),
+          0 6px 20px 0 rgba(0, 0, 0, 0.19); /* Sombra para destacar o modal */
+      }
+
+      input[type="password"] {
+        width: 70%;
+        padding: 10px;
+        margin-top: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      button {
+        padding: 10px 20px;
+        background-image: radial-gradient(circle at left, #005146, #0f4d11);
+        color: white; /* Texto branco */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 25%;
+      }
+      p {
+        margin-bottom: 0;
+      }
+      button:hover {
+        background-image: radial-gradient(circle at center, #005146, #0f4d11);
+      }
+
+      .fa-lock {
+        margin-top: 20px; /* Espaço acima do ícone */
+        color: #005146; /* Cor do ícone */
+        margin-bottom: 20px; /* Espaço abaixo do ícone */
+      }
+      #conteudoProtegido {
+        filter: blur(10px);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="modalSenha" class="modal">
+      <div class="modal-content">
+        <div
+          class="header-secret"
+          style="display: flex; align-items: center; justify-content: left"
+        >
+          <i
+            class="fas fa-lock fa-3x"
+            style="margin-right: 20px; color: #005146"
+          ></i>
+          <h2 style="margin-right: 0">
+            Por favor, <br style="font-weight: normal" />insira a senha para
+            acessar esta página
+          </h2>
+        </div>
+        <input type="password" id="inputSenha" placeholder="Digite a senha" />
+        <button onclick="verificarSenha()">Entrar</button>
+      </div>
+    </div>
+    <div class="header-container">
+      <div class="logo-title-container">
+        <img
+          src="static/negativo.png"
+          alt="Logo"
+          style="height: 30px; margin-right: 10px"
+        />
+        <h1>Inscrições</h1>
+      </div>
+      <div>
+        <a href="/download_excel" class="download-btn"
+          ><i class="fas fa-file-download"></i> BAIXAR XLSX</a
+        >
+      </div>
+    </div>
+    <table id="conteudoProtegido">
+      <thead>
+        <tr>
+          <th>Nome Completo</th>
+          <th>Email</th>
+          <th>Estado</th>
+          <th>Município</th>
+          <th>Número do Registro de Inspeção</th>
+          <th>Categoria Inscrita</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for inscricao in inscricoes %}
+        <tr>
+          <td>{{ inscricao.nome_completo }}</td>
+          <td>{{ inscricao.email }}</td>
+          <td>{{ inscricao.estado }}</td>
+          <td>{{ inscricao.municipio }}</td>
+          <td>{{ inscricao.numero_registro_inspecao }}</td>
+          <td>{{ inscricao.categoria_inscrita }}</td>
+          <td>
+            <button
+              onclick="excluirInscricao({{ inscricao.id }});"
+              style="border: none; background-color: transparent"
+            >
+              <i class="fas fa-trash" style="color: red"></i>
+            </button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <footer>
+      <span>Instituto CNA</span>
+      <span id="linhaContagem" style="margin-left: auto"
+        >{{ inscricoes | length }}</span
+      >
+    </footer>
+  </body>
+</html>

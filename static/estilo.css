@@ -1,0 +1,524 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #333;
+    line-height: 1.8;
+    position: relative;
+    min-height: 100vh;
+    background-image: url('imagem.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(113, 113, 113, 0.6);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+}
+
+form {
+    width: 100%;
+    background: none;
+    margin: 0;
+}
+
+.form-wrapper {
+    max-width: 60%;
+    margin: 0 auto;
+    padding-left: 0;
+    background: linear-gradient(to left, #eeeeee, #ffffff);
+    border-radius: 40px 40px 10px 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    margin-top: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: 30px;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 45px;
+    margin-right: 30px;
+}
+.form-group2 {
+    flex: 1; 
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 45px;
+}
+
+.form-group3 {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+
+
+.form-group:first-child {
+    flex: 5;
+}
+
+.form-group:last-child {
+    flex: 5;
+}
+
+label {
+    margin-top: 0px;
+    display: block;
+    padding-top: 10px;
+    font-weight: 400;
+    font-size: 18px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="number"],
+select,
+textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-sizing: border-box;
+    resize: vertical;
+    font-size: 20px;
+
+}
+.form-group input[type="submit"] {
+    background-image: radial-gradient(circle at left, #BE5D1B, #d27518);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+    transition: background-image 0.3s, transform 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    margin-top: 20px;
+    margin-bottom: 30px;
+    transition: transform 0.5s; /* Torna a transição mais lenta para 0.5 segundos */
+
+}
+
+.form-group input[type="submit"]:hover {
+    background-image: radial-gradient(circle at left, #BE5D1B, #d27518);
+    transform: scale(1.05);
+}
+
+.form-group input[type="submit"]:active {
+    transform: scale(0.95);
+}
+
+
+legend {
+    padding: 0 10px;
+    font-weight: bold;
+}
+
+.dropdown-checkboxes {
+    margin-top: 10px;
+}
+
+.dropdown-checkboxes input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.dropdown-checkboxes label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+textarea {
+    height: 100px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right-aligned-text {
+    text-align: right;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+
+.title-block {
+    background-image: radial-gradient(circle at left, #BE5D1B, #d2751899);
+    padding: 10px 15px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    margin-left: 40px;
+    width: calc(100% - 25px - adicionado);
+}
+
+.title-block2 {
+    background-image: radial-gradient(circle at left, #BE5D1B, #d2751899);
+    padding: 10px 15px;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    margin-top: 40px;
+    margin-left: 40px;
+    width: calc(100% - 25px - adicionado);
+}
+
+.title-block2 h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+.title-block h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+}
+
+
+.title-block i.fas {
+    font-size: 20px;
+    margin-right: 10px;
+    margin-left: 5px;
+}
+
+select#tipo_desafio {
+    font-size: 16px;
+    width: 100%;
+    height: 185px;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+  
+.input-icon {
+    position: relative;
+    max-width: 250px;
+}
+  
+.input-icon i {
+    color: #aaa;
+}
+  
+.input-icon input[type="file"] {
+    padding: 11px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 14px;
+    margin-top: 5px;
+    width: 100%;
+}
+
+
+.file-input {
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  position: absolute;
+}
+
+.custom-button {
+  /* Estilize seu botão customizado aqui */
+  padding: 15.5px;
+  background-image: radial-gradient(circle at left, #010A29, #010a297b);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: inline-flex; /* Permite que os elementos dentro do botão se alinhem corretamente */
+  align-items: center; /* Centraliza verticalmente o ícone e o texto */
+  font-weight: bold; /* Aplica negrito ao texto */
+  margin-top: 5px;
+  margin-bottom: 1rem;
+  transition: transform 0.5s; /* Torna a transição mais lenta para 0.5 segundos */
+}
+
+.file-name {
+    flex-grow: 1;
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 10px; /* Espaço entre o texto "Upload" e o nome do arquivo */
+    font-style: italic; /* Estilo para diferenciar do texto "Upload" */
+    font-size: 0.9em; /* Ajuste o tamanho da fonte conforme necessário */
+    color: #ccc; /* Cor do texto para o nome do arquivo */
+  }
+.custom-button:hover {
+    background-image: radial-gradient(circle at left, #010A29, #010a297b);
+    transform: scale(1.05);
+  }
+
+.custom-button i {
+    margin-right: 5px; /* Adiciona um espaço entre o ícone e o texto */
+    color: white;
+  }
+
+.input-icon2 input[type="url"] {
+    padding: 13.5px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    font-size: 16px;
+    margin-top: 5px;
+    margin-bottom: 1rem;
+    
+}
+
+.flex-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+
+  }
+
+  .input-icon {
+    flex: 1;
+    margin: 0 0px 0 45px;
+  }
+
+  .form-group.input-icon2 {
+    flex: 1;
+    margin: 0 30px 0 0px;
+  }
+  
+  .form-group.input-icon:first-child {
+    flex: 4;
+
+  }
+  
+  .form-group.input-icon2:last-child {
+    flex: 3;
+    }
+
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.logo-left, .logo-right {
+    display: block;
+    max-width: 100.2%;
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 1rem;
+    border-radius: 40px 40px 0 0;
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2), only screen and (min-resolution: 192dpi) {
+    .logo-left, .logo-right {
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: crisp-edges;
+        border-radius: 20px 20px 0 0;
+    }
+    .checkbox-container {
+        margin-left: 2rem !important;
+    }
+}
+
+h3 {
+    color: #3d3d3d;
+    text-align: left;
+    padding-left: 40px;
+    padding-right: 40px;
+    font-size: 24px;
+    margin-bottom: 0px;
+}
+
+.headerh3 {
+    margin-bottom: 1rem;
+}
+
+h3 strong {
+    color: #005146;
+}
+
+p {
+    color: #333;
+    font-size: 18px;
+    line-height: 1.6; 
+    margin: 0 auto; 
+    text-align: justify;
+    padding-right: 40px;
+    margin-left: 0;
+}
+
+.pheader {
+    margin-left: 40px;
+    margin-bottom: 30px;
+}
+
+.form-instructions2 {
+    color: #666; /* Cor discreta */
+    background: linear-gradient(to bottom, #c1ac4e22, #c1ac4e22);
+    width: 105%;
+    border-radius: 10px;
+    margin-bottom: 0.7rem;
+  }
+
+  .form-instructions {
+    color: #666; /* Cor discreta */
+    background: linear-gradient(to bottom, #c1ac4e22, #c1ac4e22);
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 0.7rem;
+  }
+
+  .form-instructions-ult {
+    color: #666; /* Cor discreta */
+    background: linear-gradient(to bottom, #c1ac4e22, #c1ac4e22);
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 1rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .form-instructions p {
+    line-height: 1.5;
+    margin: 0;
+    margin-left: 0;
+    width: 95%;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+  .form-instructions-ult p {
+    line-height: 1.5;
+    margin: 0;
+    margin-left: 0;
+    width: 95%;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+
+  .form-instructions2 p {
+    line-height: 1.5;
+    margin: 0;
+    margin-left: 0;
+    width: 95%;
+    padding-left: 10px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+  }
+
+  .form-instructions p strong {
+    color: #000; /* Cor mais destacada para o texto em negrito */
+    font-weight: bold;
+  }
+
+.checkbox-main-container {
+    display: flex;
+    justify-content: center;
+    width: 95%;
+}
+
+.checkbox-label {
+    font-size: 16px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: left;
+    text-align: left;
+    align-content: flex-start;
+    margin-top: 2rem;
+    margin-left: 2.8rem;
+}
+
+.custom-checkbox {
+    margin-right: 10px;
+    margin-top: 11px;
+}
+
+.sub-label {
+    font-size: smaller; /* Diminui o tamanho da fonte do sub-label */
+    color: #666; /* Cor cinza para o sub-label, opcional */
+    margin-left: 4px; /* Espaçamento entre o texto "Área" e o sub-label */
+  }
+
+.custom-p {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #3D3D3D;
+    /* Adicione mais estilos conforme necessário */
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    margin-left: 40px;
+    margin-right: 40px;
+    padding: 0 0 0 0;
+    border-radius: 15px;
+    background: linear-gradient(to bottom right, #c1ac4e22, #00514608); /* Degradê do cinza claro ao verde */
+  }
+
+  .container img {
+    height: 70px;
+    width: auto;
+    max-height: 100%;
+  }
+
+  .custom-p {
+    font-size: 14px; /* Tamanho de fonte ajustado */
+    color: #333; /* Cor de fonte mais escura para melhor leitura */
+    margin: 0; /* Removendo margem padrão */
+    line-height: 1.5; /* Espaçamento de linha para melhor leitura */
+  }
