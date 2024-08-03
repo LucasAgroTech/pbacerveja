@@ -229,12 +229,10 @@ def add_inscricao():
     # Enviar email com conteúdo HTML e anexo PDF (se existir)
     send_email(to_email, subject, html_content, pdf_buffer)
 
-    pdf_download_url = url_for(
-        "download_pdf", inscricao_id=nova_inscricao.id, _external=True
-    )
-    return jsonify(success=True, download_url=pdf_download_url)
+    return jsonify(success=True)
 
 
+# Rota para baixar o PDF
 @app.route("/download_pdf/<int:inscricao_id>", methods=["GET"])
 def download_pdf(inscricao_id):
     inscricao = Inscricao.query.get_or_404(inscricao_id)
@@ -243,7 +241,7 @@ def download_pdf(inscricao_id):
     return send_file(
         pdf_buffer,
         as_attachment=True,
-        download_name="Inscricao.pdf",  # Correto: 'download_name' em vez de 'attachment_filename'
+        attachment_filename="Inscricao.pdf",
         mimetype="application/pdf",
     )
 

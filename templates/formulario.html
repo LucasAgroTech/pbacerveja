@@ -721,23 +721,13 @@
               submitBtn.textContent = "Enviar";
 
               if (data.success) {
-                // Sweet Alert com opção de download
                 Swal.fire({
-                  title: "Inscrição Confirmada!",
-                  text: "Sua inscrição foi confirmada com sucesso.",
+                  title: "Cerveja Inscrita!",
+                  text: "Sua inscrição foi processada com sucesso!",
                   icon: "success",
-                  confirmButtonText: "Baixar Ficha de Inscrição",
-                  showCancelButton: true,
-                  cancelButtonText: "Fechar",
-                }).then((result) => {
-                  if (result.isConfirmed) {
-                    window.location.href = data.download_url; // Use a URL fornecida pelo servidor
-                  }
                 });
               } else {
-                throw new Error(
-                  data.error || "Erro desconhecido ao processar a inscrição."
-                );
+                throw new Error("Falha ao processar inscrição");
               }
             })
             .catch((error) => {
@@ -747,8 +737,7 @@
 
               Swal.fire({
                 title: "Erro!",
-                text:
-                  "Não foi possível processar sua inscrição: " + error.message,
+                text: "Não foi possível processar sua inscrição.",
                 icon: "error",
               });
             });
