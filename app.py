@@ -11,6 +11,7 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
 from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_LEFT
+from sqlalchemy.engine.url import URL
 from reportlab.platypus import Image
 import requests
 import json
@@ -22,10 +23,17 @@ import os
 app = Flask(__name__)
 
 # Configuração da URI do Banco de Dados
-uri = os.getenv("DATABASE_URL")
-if uri and uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
-app.config["SQLALCHEMY_DATABASE_URI"] = uri
+# Obter a URI do banco de dados do ambiente
+database_url = os.getenv("DATABASE_URL")
+
+# Corrigir a URL do PostgreSQL, se necessário
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace("postgres://", "postgresql://", 1)
+
+# Usar a biblioteca 'sqlalchemy.engine.url' para parsear e reconstruir a URL, garantindo compatibilidade
+database_url = str(URL.create(database_url))
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
@@ -387,6 +395,4 @@ def download_excel():
 
 
 if __name__ == "__main__":
-    with app.app_context():
-        db.create_all()
     app.run(debug=True)
