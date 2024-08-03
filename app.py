@@ -29,6 +29,7 @@ if uri.startswith("postgres://"):
 app.config["SQLALCHEMY_DATABASE_URI"] = uri
 
 db = SQLAlchemy(app)
+
 # Configurações do Flask-Mail
 app.config["MAIL_SERVER"] = "smtp.hostinger.com"
 app.config["MAIL_PORT"] = 465
@@ -43,19 +44,27 @@ mail = Mail(app)
 class Inscricao(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     codigo_unico = db.Column(db.String(10), unique=True, nullable=False)
-    nome_completo = db.Column(db.String(120), nullable=False)
-    cpf = db.Column(db.String(14), nullable=False)
+    nome_completo = db.Column(db.String(255), nullable=False)  # Nome pode ser longo
+    cpf = db.Column(
+        db.String(14), nullable=False
+    )  # Formato com máscara: 000.000.000-00
     nome_estabelecimento = db.Column(db.String(255), nullable=False)
     volume_producao_anual = db.Column(db.Integer, nullable=False)
-    cnpj = db.Column(db.String(18), nullable=True)
-    telefone = db.Column(db.String(20), nullable=False)
+    cnpj = db.Column(
+        db.String(18), nullable=True
+    )  # Formato com máscara: 00.000.000/0000-00
+    telefone = db.Column(
+        db.String(20), nullable=False
+    )  # Espaço para formatos internacionais +00 (00) 00000-0000
     email = db.Column(db.String(255), nullable=False)
     endereco = db.Column(db.String(255), nullable=False)
     municipio = db.Column(db.String(120), nullable=False)
-    estado = db.Column(db.String(2), nullable=False)
-    cep = db.Column(db.String(10), nullable=False)
+    estado = db.Column(db.String(2), nullable=False)  # Sigla do estado
+    cep = db.Column(db.String(10), nullable=False)  # Formato com máscara: 00000-000
     nome_produto = db.Column(db.String(255), nullable=False)
-    registro_estabelecimento_mapa = db.Column(db.String(255), nullable=False)
+    registro_estabelecimento_mapa = db.Column(
+        db.String(255), nullable=False
+    )  # Pode conter códigos longos
     registro_produto_mapa = db.Column(db.String(255), nullable=False)
     categoria_inscrita = db.Column(db.String(50), nullable=False)
     pasteurizado = db.Column(db.Boolean, nullable=False)
@@ -109,53 +118,6 @@ class Inscricao(db.Model):
             ),
             "aceitou_termos": self.aceitou_termos,
         }
-
-
-def enviar_whatsapp(message, celular, pdf_data):
-    instance_id = "3CEECDAD20E58068BF148A74AFBCE7F1"
-    token = "6D4813ECC30AC60A40EC78DF"
-    client_token = "Fd177f367ea084db78008dcb4627e63fdS"
-
-    phone = celular  # formato: 5561991333327
-
-    # Primeiro, enviamos a mensagem de texto
-    conteudo_texto = json.dumps({"phone": phone, "message": message})
-
-    post_url_texto = (
-        f"https://api.z-api.io/instances/{instance_id}/token/{token}/send-text"
-    )
-
-    headers = {"Content-Type": "application/json", "Client-Token": client_token}
-
-    response_texto = requests.post(post_url_texto, headers=headers, data=conteudo_texto)
-
-    try:
-        response_texto.raise_for_status()
-        data_texto = response_texto.json()
-        print("Mensagem de texto enviada com sucesso:", data_texto)
-    except requests.exceptions.HTTPError as err:
-        print("Erro na requisição de texto:", err)
-        print("Resposta:", response_texto.text)
-
-    # Em seguida, enviamos o PDF como anexo
-    pdf_url = "https://seu-dominio.com/caminho/para/o/pdf"  # Ajuste conforme necessário
-    conteudo_pdf = json.dumps(
-        {"phone": phone, "document": pdf_url, "fileName": "Confirmacao_Inscricao.pdf"}
-    )
-
-    post_url_pdf = (
-        f"https://api.z-api.io/instances/{instance_id}/token/{token}/send-document"
-    )
-
-    response_pdf = requests.post(post_url_pdf, headers=headers, data=conteudo_pdf)
-
-    try:
-        response_pdf.raise_for_status()
-        data_pdf = response_pdf.json()
-        print("PDF enviado com sucesso:", data_pdf)
-    except requests.exceptions.HTTPError as err:
-        print("Erro na requisição do PDF:", err)
-        print("Resposta:", response_pdf.text)
 
 
 def create_tables():
@@ -254,15 +216,36 @@ def add_inscricao():
     db.session.add(nova_inscricao)
     db.session.commit()
 
-    send_email(email, "Confirmação de Inscrição", "Sua inscrição foi confirmada.")
+    # Geração do PDF
+    pdf_buffer = create_pdf(nova_inscricao, app.config["LOGO_PATH"])
 
-    return redirect(url_for("index", success=True))
+    # Configuração e envio do email
+    to_email = nova_inscricao.email  # Email do usuário
+    subject = "Confirmação de Inscrição"
+    html_content = render_template(
+        "email_template.html", nome=nova_inscricao.nome_completo
+    )
+
+    # Enviar email com conteúdo HTML e anexo PDF (se existir)
+    send_email(to_email, subject, html_content, pdf_buffer)
+
+    pdf_download_url = url_for(
+        "download_pdf", inscricao_id=nova_inscricao.id, _external=True
+    )
+    return jsonify(success=True, download_url=pdf_download_url)
 
 
-def send_email(to_email, subject, html_content):
-    with app.app_context():
-        msg = Message(subject, recipients=[to_email], html=html_content)
-        mail.send(msg)
+@app.route("/download_pdf/<int:inscricao_id>", methods=["GET"])
+def download_pdf(inscricao_id):
+    inscricao = Inscricao.query.get_or_404(inscricao_id)
+    pdf_buffer = create_pdf(inscricao, app.config["LOGO_PATH"])
+    pdf_buffer.seek(0)
+    return send_file(
+        pdf_buffer,
+        as_attachment=True,
+        download_name="Inscricao.pdf",  # Correto: 'download_name' em vez de 'attachment_filename'
+        mimetype="application/pdf",
+    )
 
 
 def create_pdf(data, logo_path):
@@ -286,36 +269,35 @@ def create_pdf(data, logo_path):
 
     # Adicionando título
     title = Paragraph(
-        "Inscrição - Prêmio CNA Brasil Artesanal 2024 - Mel", styles["Title"]
+        "Inscrição - Prêmio CNA Brasil Artesanal 2024 - Cerveja", styles["Title"]
     )
     story.append(title)
     story.append(Spacer(1, 12))
 
     # Informações de inscrição formatadas
     fields = [
-        "nome_completo",
-        "cpf_cnpj",
-        "email",
-        "telefone_whatsapp",
-        "numero_cadastro_produtor",
-        "municipio",
-        "estado",
-        "cep",
-        "numero_registro_inspecao",
-        "nome_fantasia",
-        "lote_data_envase",
-        "categoria_inscrita",
-        "capacidade_produtiva_kg",
-        "quantidade_gramas_embalagem",
-        "historia_produtor",
-        "origem_conhecimento",
-        "outro_origem_conhecimento",
-        "data_hora_inscricao",
-        "aceitou_termos",
+        ("Nome Completo", data.nome_completo),
+        ("CPF/CNPJ", data.cpf),
+        ("Email", data.email),
+        ("Telefone/WhatsApp", data.telefone),
+        ("Número Cadastro Produtor", data.nome_estabelecimento),
+        ("Município", data.municipio),
+        ("Estado", data.estado),
+        ("CEP", data.cep),
+        ("Número Registro Inspeção", data.registro_estabelecimento_mapa),
+        ("Nome Fantasia", data.nome_produto),
+        ("Lote Data Envase", data.lote),
+        ("Categoria Inscrita", data.categoria_inscrita),
+        ("Capacidade Produtiva kg", str(data.volume_producao_anual)),
+        ("Quantidade Gramas Embalagem", str(data.quantidade_ml_amostral)),
+        ("História Produtor", data.historia_producao),
+        ("Origem Conhecimento", data.origem_conhecimento),
+        ("Outro Origem Conhecimento", data.outro_origem_conhecimento),
+        ("Data Hora Inscrição", data.data_hora_inscricao.strftime("%Y-%m-%d %H:%M:%S")),
+        ("Aceitou Termos", "Sim" if data.aceitou_termos else "Não"),
     ]
-    for field in fields:
-        label = field.replace("_", " ").capitalize()
-        value = data.get(field, "Não informado")
+
+    for label, value in fields:
         paragraph = Paragraph(f"<b>{label}:</b> {value}", styles["BodyText"])
         story.append(paragraph)
         story.append(Spacer(1, 6))
@@ -336,7 +318,7 @@ def create_pdf(data, logo_path):
         canvas.drawString(
             inch,
             0.75 * inch,
-            f"Data/Hora: {data['data_hora_inscricao']} - Página: {doc.page}",
+            f"Data/Hora: {data.data_hora_inscricao.strftime('%Y-%m-%d %H:%M:%S')} - Página: {doc.page}",
         )
         canvas.restoreState()
 
@@ -344,6 +326,15 @@ def create_pdf(data, logo_path):
 
     buffer.seek(0)
     return buffer
+
+
+def send_email(to_email, subject, html_content, pdf_file=None):
+    with app.app_context():
+        msg = Message(subject, recipients=[to_email], html=html_content)
+        if pdf_file:
+            pdf_file.seek(0)
+            msg.attach("Inscricao.pdf", "application/pdf", pdf_file.read())
+        mail.send(msg)
 
 
 @app.route("/inscricoes", methods=["GET"])

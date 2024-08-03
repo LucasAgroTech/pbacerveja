@@ -698,15 +698,60 @@
       document
         .getElementById("FormID")
         .addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevenção do envio padrão
+
+          var formData = new FormData(this);
           var submitBtn = document.getElementById("submitBtn");
           var loadingIcon = document.getElementById("loadingIcon");
 
           // Mostra o ícone de carregamento e desativa o botão de envio
           loadingIcon.style.display = "inline-block";
           submitBtn.disabled = true;
-          submitBtn.textContent = "Enviando..."; // Altera o texto se necessário
+          submitBtn.textContent = "Enviando...";
 
-          // O envio do formulário continua normalmente
+          // Chamada AJAX usando Fetch API
+          fetch("/inscricao", {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              loadingIcon.style.display = "none";
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Enviar";
+
+              if (data.success) {
+                // Sweet Alert com opção de download
+                Swal.fire({
+                  title: "Inscrição Confirmada!",
+                  text: "Sua inscrição foi confirmada com sucesso.",
+                  icon: "success",
+                  confirmButtonText: "Baixar Ficha de Inscrição",
+                  showCancelButton: true,
+                  cancelButtonText: "Fechar",
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    window.location.href = data.download_url; // Use a URL fornecida pelo servidor
+                  }
+                });
+              } else {
+                throw new Error(
+                  data.error || "Erro desconhecido ao processar a inscrição."
+                );
+              }
+            })
+            .catch((error) => {
+              loadingIcon.style.display = "none";
+              submitBtn.disabled = false;
+              submitBtn.textContent = "Enviar";
+
+              Swal.fire({
+                title: "Erro!",
+                text:
+                  "Não foi possível processar sua inscrição: " + error.message,
+                icon: "error",
+              });
+            });
         });
     </script>
   </body>
