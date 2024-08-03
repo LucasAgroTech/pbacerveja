@@ -20,10 +20,13 @@ import pyexcel as p
 import os
 
 app = Flask(__name__)
+
+# Configuração da URI do Banco de Dados
 uri = os.getenv("DATABASE_URL")
 if uri and uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 app.config["SQLALCHEMY_DATABASE_URI"] = uri
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 # Configurações do Flask-Mail
@@ -44,7 +47,7 @@ class Inscricao(db.Model):
     cpf = db.Column(db.String(14), nullable=False)
     nome_estabelecimento = db.Column(db.String(255), nullable=False)
     volume_producao_anual = db.Column(db.Integer, nullable=False)
-    cnpj = db.Column(db.String(18), nullable=False)
+    cnpj = db.Column(db.String(18), nullable=True)
     telefone = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(255), nullable=False)
     endereco = db.Column(db.String(255), nullable=False)
@@ -187,9 +190,11 @@ app.config["LOGO_PATH"] = "static/logo.png"
 
 @app.route("/inscricao", methods=["POST"])
 def add_inscricao():
-    # Recuperando dados do formulário
     nome_completo = request.form["nome_completo"]
     cpf = request.form["cpf"]
+    nome_estabelecimento = request.form["nome_estabelecimento"]
+    volume_producao_anual = request.form.get("volume_producao_anual")
+    cnpj = request.form.get("cnpj")
     telefone = request.form["telefone"]
     email = request.form["email"]
     endereco = request.form["endereco"]
@@ -209,13 +214,19 @@ def add_inscricao():
     embalagem_amostral = request.form["embalagem_amostral"]
     quantidade_ml_amostral = int(request.form["quantidade_ml_amostral"])
     historia_producao = request.form["historia_producao"]
+    informacoes_adicionais = request.form.get("informacoes_adicionais")
     origem_conhecimento = request.form.get("origem_conhecimento")
     outro_origem_conhecimento = request.form.get("outro_origem_conhecimento")
     aceitou_termos = request.form.get("aceitou_termos") == "on"
+    codigo_unico = gerar_codigo_unico()
 
     nova_inscricao = Inscricao(
+        codigo_unico=codigo_unico,
         nome_completo=nome_completo,
         cpf=cpf,
+        nome_estabelecimento=nome_estabelecimento,
+        volume_producao_anual=volume_producao_anual,
+        cnpj=cnpj,
         telefone=telefone,
         email=email,
         endereco=endereco,
@@ -232,9 +243,10 @@ def add_inscricao():
         quantidade_unidades_amostrais=quantidade_unidades_amostrais,
         embalagem_amostral=embalagem_amostral,
         quantidade_ml_amostral=quantidade_ml_amostral,
-        historia_producao=historia_producao,
+        informacoes_adicionais=informacoes_adicionais,
         origem_conhecimento=origem_conhecimento,
         outro_origem_conhecimento=outro_origem_conhecimento,
+        historia_producao=historia_producao,
         aceitou_termos=aceitou_termos,
         data_hora_inscricao=datetime.utcnow(),
     )
@@ -242,7 +254,6 @@ def add_inscricao():
     db.session.add(nova_inscricao)
     db.session.commit()
 
-    # Enviando confirmação por e-mail
     send_email(email, "Confirmação de Inscrição", "Sua inscrição foi confirmada.")
 
     return redirect(url_for("index", success=True))
@@ -376,4 +387,6 @@ def download_excel():
 
 
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run(debug=True)

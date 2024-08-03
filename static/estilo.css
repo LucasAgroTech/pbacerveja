@@ -37,7 +37,7 @@ form {
 }
 
 .form-wrapper {
-    max-width: 60%;
+    max-width: 50%;
     margin: 0 auto;
     padding-left: 0;
     background: linear-gradient(to left, #eeeeee, #ffffff);
@@ -78,6 +78,21 @@ form {
     display: flex;
     flex-direction: column;
     margin-left: 10px;
+}
+
+.form-group input[type="text"],
+.form-group input[type="url"],
+.form-group select,
+.form-group textarea,
+.form-group input[type="number"],
+.form-group input[type="email"],
+.form-group input[type="date"] { /* Inclui input de data aqui */
+    width: 100%; /* Faz com que todos os inputs ocupem a largura total disponível */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
 }
 
 
@@ -176,7 +191,7 @@ textarea {
 
 
 .title-block {
-    background-image: radial-gradient(circle at left, #BE5D1B, #d2751899);
+    background-image: radial-gradient(circle at left, #faaa25, #f8aa1f);
     padding: 10px 15px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
@@ -192,7 +207,7 @@ textarea {
 }
 
 .title-block2 {
-    background-image: radial-gradient(circle at left, #BE5D1B, #d2751899);
+    background-image: radial-gradient(circle at left, #faaa25, #f8aa1f);
     padding: 10px 15px;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;

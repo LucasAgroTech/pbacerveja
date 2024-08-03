@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>INSCRIÇÃO | PRÊMIO CNA BRASIL ARTESANAL 2024 – MEL</title>
+    <title>INSCRIÇÃO | PRÊMIO CNA BRASIL ARTESANAL 2024 – CERVEJA</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.8" />
     <link
       rel="stylesheet"
@@ -42,20 +42,17 @@
       }
 
       async function carregarCidades(siglaEstado) {
-        if (!siglaEstado) {
-          document.getElementById("cidade").innerHTML =
-            '<option value="">Selecione uma Cidade</option>';
-          return;
-        }
+        const selectCidade = document.getElementById("municipio");
+        selectCidade.innerHTML =
+          '<option value="">Selecione uma Cidade</option>';
+
+        if (!siglaEstado) return;
 
         const response = await fetch(
           `https://servicodados.ibge.gov.br/api/v1/localidades/estados/${siglaEstado}/municipios`
         );
         const cidades = await response.json();
 
-        const selectCidade = document.getElementById("cidade");
-        selectCidade.innerHTML =
-          '<option value="">Selecione uma Cidade</option>';
         cidades.forEach((cidade) => {
           selectCidade.innerHTML += `<option value="${cidade.nome}">${cidade.nome}</option>`;
         });
@@ -72,10 +69,12 @@
           #fb7a36,
           #fca93d
         ) !important;
-        border: 0;
-        color: white;
+        border: 0; /* Remove a borda padrão, se desejado */
+        color: white; /* Altera a cor do texto, se necessário */
+        /* Adicione outras propriedades de estilo conforme necessário */
       }
 
+      /* Estilizações específicas para dispositivos móveis */
       @media (max-width: 768px) {
         body {
           padding: 2rem 0px;
@@ -88,9 +87,9 @@
           font-size: 14px;
         }
         .form-wrapper {
-          width: 90%;
-          max-width: 90%;
-          margin: 0 auto;
+          width: 90%; /* Aumenta a largura para 90% da tela */
+          max-width: 90%; /* Define uma largura máxima */
+          margin: 0 auto; /* Centraliza horizontalmente */
           padding: 0;
           box-shadow: none;
           border-radius: 20px;
@@ -126,15 +125,15 @@
           margin-left: 0px;
         }
         .form-group {
-          width: 90%;
+          width: 90%; /* Garante que os inputs ocupem a largura total */
           margin-left: 2rem;
         }
         .form-group3 {
-          width: 96%;
+          width: 96%; /* Garante que os inputs ocupem a largura total */
           margin-left: 2rem;
         }
         .form-group.input-icon2 {
-          width: 90%;
+          width: 90%; /* Garante que os inputs ocupem a largura total */
           margin-left: 2rem;
         }
         .input-icon {
@@ -142,14 +141,14 @@
           max-width: 100%;
         }
         .form-instructions2 {
-          color: #666;
+          color: #666; /* Cor discreta */
           background-color: #d9d9d9;
           width: 105%;
           border-radius: 5px;
           margin-bottom: 0.7rem;
         }
         .form-instructions {
-          color: #666;
+          color: #666; /* Cor discreta */
           background-color: #d9d9d9;
           width: 100%;
           border-radius: 5px;
@@ -174,7 +173,7 @@
           padding-top: 10px;
         }
         .form-instructions p strong {
-          color: #000;
+          color: #000; /* Cor mais destacada para o texto em negrito */
           font-weight: bold;
         }
         .row,
@@ -186,8 +185,8 @@
         .form-group input[type="url"],
         .form-group select,
         .form-group textarea {
-          max-width: 100%;
-          box-sizing: border-box;
+          max-width: 100%; /* Garante que os elementos de formulário não excedam a largura da tela */
+          box-sizing: border-box; /* Inclui padding e bordas na largura total */
         }
         .pheader {
           margin-left: 25px;
@@ -212,26 +211,28 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        padding: 10px 20px;
+        padding: 10px 20px; /* Ajuste conforme necessário */
         margin-top: 30px;
         border-radius: 10px;
         margin-bottom: 30px;
-        font-size: 16px;
-        border: none;
+        font-size: 16px; /* Ajuste conforme necessário */
+        border: none; /* Ajuste conforme necessário */
         background-image: linear-gradient(
           to right,
           #fb7a36,
           #fca93d
         ) !important;
-        border: 0;
-        color: white;
+        border: 0; /* Remove a borda padrão, se desejado */
+        color: white; /* Altera a cor do texto, se necessário */
+        /* Adicione outras propriedades de estilo conforme necessário */
+        color: white; /* Cor do texto */
         cursor: pointer;
       }
 
       .loading-icon {
-        display: none;
-        margin-left: 10px;
-        font-size: 18px;
+        display: none; /* Inicia escondido */
+        margin-left: 10px; /* Espaço entre o texto e o ícone */
+        font-size: 18px; /* Tamanho do ícone de carregamento */
       }
 
       @keyframes spin {
@@ -253,13 +254,13 @@
         id="FormID"
       >
         <div class="logo-container">
-          <img src="static/logo.svg" alt="Logo Esquerda" class="logo-left" />
+          <img src="static/header.png" alt="Logo Esquerda" class="logo-left" />
         </div>
         <div class="title-block">
           <h2>Informações do Participante</h2>
         </div>
         <div class="form-group">
-          <label for="nome">Nome completo do(a) produtor(a)</label>
+          <label for="nome">Nome completo do(a) produtor(a) da cerveja</label>
           <input type="text" id="nome" name="nome_completo" required />
         </div>
         <div class="form-group">
@@ -273,26 +274,57 @@
           />
         </div>
         <div class="form-group">
-          <label for="telefone">Whatsapp</label>
+          <label for="nome_estabelecimento"
+            >Nome do estabelecimento produtor</label
+          >
+          <input
+            type="text"
+            id="nome_estabelecimento"
+            name="nome_estabelecimento"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="volume_producao"
+            >Volume de produção anual total, em litros</label
+          >
+          <input
+            type="number"
+            id="volume_producao"
+            name="volume_producao_anual"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="cnpj">CNPJ</label>
+          <input
+            type="text"
+            id="cnpj"
+            name="cnpj"
+            required
+            oninput="mascaraCPForCNPJ(this)"
+          />
+        </div>
+        <div class="form-group">
+          <label for="telefone">Telefone</label>
           <input
             type="text"
             id="telefone"
             name="telefone"
-            oninput="mascaraTelefone(this)"
             required
+            oninput="mascaraTelefone(this)"
           />
         </div>
-
         <div class="form-group">
           <label for="email">E-mail</label>
           <input type="email" id="email" name="email" required />
         </div>
-        <div class="form-group">
-          <label for="cnpj">CNPJ</label>
-          <input type="text" id="cnpj" name="cnpj" required />
-        </div>
         <div class="title-block2">
           <h2>Endereço</h2>
+        </div>
+        <div class="form-group">
+          <label for="endereco">Endereço</label>
+          <input type="text" id="endereco" name="endereco" required />
         </div>
         <div class="form-group">
           <label for="estado">Estado</label>
@@ -317,21 +349,16 @@
             oninput="mascaraCEP(this)"
           />
         </div>
-        <div class="form-group">
-          <label for="endereco">Endereço</label>
-          <input type="text" id="endereco" name="endereco" required />
-        </div>
-
         <div class="title-block2">
           <h2>Produto</h2>
         </div>
         <div class="form-group">
-          <label for="nome_produto">Nome fantasia ou marca do produto</label>
+          <label for="nome_produto">Nome/marca do produto</label>
           <input type="text" id="nome_produto" name="nome_produto" required />
         </div>
         <div class="form-group">
           <label for="registro_estabelecimento_mapa"
-            >Número do registro no serviço de inspeção do estabelecimento</label
+            >Número de registro do estabelecimento no MAPA</label
           >
           <input
             type="text"
@@ -342,7 +369,7 @@
         </div>
         <div class="form-group">
           <label for="registro_produto_mapa"
-            >Número do registro no serviço de inspeção do produto</label
+            >Número de registro do produto no MAPA</label
           >
           <input
             type="text"
@@ -352,8 +379,24 @@
           />
         </div>
         <div class="form-group">
+          <label for="categoria_inscrita">Categoria inscrita</label>
+          <select id="categoria_inscrita" name="categoria_inscrita" required>
+            <option value="">Selecione a Categoria</option>
+            <option value="Ale">ALE</option>
+            <option value="Lager">LAGER</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pasteurizado">O produto é pasteurizado?</label>
+          <select id="pasteurizado" name="pasteurizado" required>
+            <option value="">Selecione uma opção</option>
+            <option value="Sim">Sim</option>
+            <option value="Não">Não</option>
+          </select>
+        </div>
+        <div class="form-group">
           <label for="data_fabricacao_amostras"
-            >Data de fabricação das amostras</label
+            >Data de fabricação das unidades amostrais</label
           >
           <input
             type="date"
@@ -367,21 +410,6 @@
           <input type="text" id="lote" name="lote" required />
         </div>
         <div class="form-group">
-          <label for="categoria_inscrita">Categoria inscrita</label>
-          <select id="categoria_inscrita" name="categoria_inscrita" required>
-            <option value="">Selecione a Categoria</option>
-            <option value="Mel Claro">Mel Claro</option>
-            <option value="Mel Escuro">Mel Escuro</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label for="pasteurizado">Produto pasteurizado</label>
-          <select id="pasteurizado" name="pasteurizado" required>
-            <option value="true">Sim</option>
-            <option value="false">Não</option>
-          </select>
-        </div>
-        <div class="form-group">
           <label for="quantidade_unidades_amostrais"
             >Quantidade de unidades amostrais</label
           >
@@ -393,17 +421,28 @@
           />
         </div>
         <div class="form-group">
-          <label for="embalagem_amostral">Embalagem amostral</label>
+          <label for="embalagem_amostral"
+            >Especificação da embalagem da unidade amostral</label
+          >
+          <select id="embalagem_amostral" name="embalagem_amostral" required>
+            <option value="">Selecione a Embalagem</option>
+            <option value="Lata">Lata</option>
+            <option value="Growler">Growler</option>
+            <option value="Pet">Pet</option>
+            <option value="Garrafa de vidro">Garrafa de vidro</option>
+            <option value="Outro">Outro (especifique)</option>
+          </select>
           <input
             type="text"
-            id="embalagem_amostral"
-            name="embalagem_amostral"
-            required
+            id="especificacao_outro"
+            name="especificacao_outro"
+            placeholder="Por favor, especifique"
+            style="display: none"
           />
         </div>
         <div class="form-group">
           <label for="quantidade_ml_amostral"
-            >Quantidade em ml por embalagem amostral</label
+            >Quantidade, em mililitros, por unidade amostral</label
           >
           <input
             type="number"
@@ -413,118 +452,134 @@
           />
         </div>
         <div class="form-group">
-          <label for="historia_producao">História do(a) produtor(a)</label>
+          <label for="informacoes_adicionais">Informações adicionais</label>
           <textarea
-            id="historia_producao"
-            name="historia_producao"
-            required
+            id="informacoes_adicionais"
+            name="informacoes_adicionais"
             maxlength="1800"
           ></textarea>
         </div>
         <div class="form-group">
           <label>Como você ficou sabendo do concurso?</label>
           <div class="checkbox-group">
-            <label
-              ><input
+            <label>
+              <input
                 type="checkbox"
                 name="origem_conhecimento"
                 value="Mídias Sociais"
                 onclick="toggleOutroCampo()"
               />
-              Mídias Sociais (Facebook, Instagram, Twitter, etc.)</label
-            >
-            <label
-              ><input
+              Mídias Sociais (Facebook, Instagram, Twitter, etc.)
+            </label>
+            <label>
+              <input
                 type="checkbox"
                 name="origem_conhecimento"
                 value="E-mail-marketing"
                 onclick="toggleOutroCampo()"
               />
-              E-mail-marketing</label
-            >
-            <label
-              ><input
+              E-mail-marketing
+            </label>
+            <label>
+              <input
                 type="checkbox"
                 name="origem_conhecimento"
                 value="WhatsApp"
                 onclick="toggleOutroCampo()"
               />
-              WhatsApp</label
-            >
-            <label
-              ><input
+              WhatsApp
+            </label>
+            <label>
+              <input
                 type="checkbox"
                 name="origem_conhecimento"
                 value="Youtube"
                 onclick="toggleOutroCampo()"
               />
-              Youtube</label
-            >
-            <label
-              ><input
+              Youtube
+            </label>
+            <label>
+              <input
                 type="checkbox"
                 name="origem_conhecimento"
                 value="Site Oficial CNA/Senar"
                 onclick="toggleOutroCampo()"
               />
-              Matéria/banner no site oficial da CNA/Senar</label
-            >
-            <label
-              ><input
+              Matéria/banner no site oficial da CNA/Senar
+            </label>
+            <label>
+              <input
                 type="checkbox"
                 name="origem_conhecimento"
                 value="Sites de Federação ou Sindicato"
                 onclick="toggleOutroCampo()"
               />
-              Matéria/banner em sites de Federação ou Sindicato</label
-            >
-            <label
-              ><input
-                type="checkbox"
-                name="origem_conhecimento"
-                value="Outros sites do setor"
-                onclick="toggleOutroCampo()"
-              />
-              Outros sites do setor</label
-            >
-            <label
-              ><input
+              Matéria/banner em sites de Federação ou Sindicato
+            </label>
+            <label>
+              <input
                 type="checkbox"
                 name="origem_conhecimento"
                 value="Rádio"
                 onclick="toggleOutroCampo()"
               />
-              Rádio</label
-            >
-            <label
-              ><input
+              Rádio
+            </label>
+            <label>
+              <input
                 type="checkbox"
                 name="origem_conhecimento"
                 value="Indicação de outra pessoa"
                 onclick="toggleOutroCampo()"
               />
-              Indicação de outra pessoa</label
-            >
-            <label
-              ><input
+              Indicação de outra pessoa
+            </label>
+            <label>
+              <input
                 type="checkbox"
                 name="origem_conhecimento"
                 value="Eventos do setor agropecuário"
                 onclick="toggleOutroCampo()"
               />
-              Eventos do setor agropecuário (feiras, seminários,
-              encontros)</label
-            >
-            <label
-              ><input
+              Eventos do setor agropecuário (feiras, seminários, encontros)
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="origem_conhecimento"
+                value="Abracerva"
+                onclick="toggleOutroCampo()"
+              />
+              Abracerva
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="origem_conhecimento"
+                value="Sinderv"
+                onclick="toggleOutroCampo()"
+              />
+              Sinderv
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                name="origem_conhecimento"
+                value="Papo de Sommeliere"
+                onclick="toggleOutroCampo()"
+              />
+              Papo de Sommeliere
+            </label>
+            <label>
+              <input
                 type="checkbox"
                 id="outroCheckbox"
                 name="origem_conhecimento"
                 value="Outro"
                 onchange="mostrarInputOutro()"
               />
-              Outro (por favor, especifique):</label
-            >
+              Outro (por favor, especifique):
+            </label>
           </div>
           <input
             type="text"
@@ -533,6 +588,21 @@
             style="display: none"
             placeholder="Por favor, especifique"
           />
+        </div>
+        <div class="form-group">
+          <label for="historia_producao"
+            >Conte-nos a história de sua produção e da elaboração do seu
+            produto, suas tradições e regionalidades, bem como o processo
+            produtivo utilizado</label
+          >
+          <textarea
+            id="historia_producao"
+            name="historia_producao"
+            required
+            maxlength="1800"
+          ></textarea>
+        </div>
+        <div class="form-group">
           <label style="margin-top: 2rem; border-top: solid 1px #ccc">
             <input type="checkbox" name="aceitou_termos" required />
             Eu concordo com a
@@ -554,12 +624,14 @@
       function mascaraCPForCNPJ(input) {
         var valor = input.value.replace(/\D/g, "");
         if (valor.length <= 11) {
+          // Aplica máscara de CPF
           input.value = valor
             .replace(/(\d{3})(\d)/, "$1.$2")
             .replace(/(\d{3})(\d)/, "$1.$2")
             .replace(/(\d{3})(\d{1,2})/, "$1-$2")
             .replace(/(-\d{2})\d+?$/, "$1");
         } else {
+          // Aplica máscara de CNPJ
           input.value = valor
             .replace(/^(\d{2})(\d)/, "$1.$2")
             .replace(/^(\d{2})\.(\d{3})(\d)/, "$1.$2.$3")
@@ -571,13 +643,15 @@
       function mascaraTelefone(input) {
         var valor = input.value.replace(/\D/g, "");
         if (valor.length > 11) {
-          valor = valor.slice(0, 11);
+          valor = valor.slice(0, 11); // Garante que o número não exceda 11 dígitos
         }
         if (valor.length > 10) {
+          // Aplica máscara para celular
           input.value = valor
             .replace(/^(\d{2})(\d)/, "($1) $2")
             .replace(/(\d{5})(\d)/, "$1-$2");
         } else if (valor.length > 2) {
+          // Aplica máscara para telefone fixo
           input.value = valor
             .replace(/^(\d{2})(\d)/, "($1) $2")
             .replace(/(\d{4})(\d)/, "$1-$2");
@@ -586,11 +660,11 @@
         }
       }
       function mascaraCEP(input) {
-        var valor = input.value.replace(/\D/g, "");
+        var valor = input.value.replace(/\D/g, ""); // Remove todos os caracteres que não são dígitos
         if (valor.length > 8) {
-          valor = valor.slice(0, 8);
+          valor = valor.slice(0, 8); // Limita o CEP a 8 dígitos
         }
-        input.value = valor.replace(/^(\d{5})(\d)/, "$1-$2");
+        input.value = valor.replace(/^(\d{5})(\d)/, "$1-$2"); // Aplica a máscara de CEP
       }
       function mostrarInputOutro() {
         var checkboxOutro = document.getElementById("outroCheckbox");
@@ -627,9 +701,12 @@
           var submitBtn = document.getElementById("submitBtn");
           var loadingIcon = document.getElementById("loadingIcon");
 
+          // Mostra o ícone de carregamento e desativa o botão de envio
           loadingIcon.style.display = "inline-block";
           submitBtn.disabled = true;
-          submitBtn.textContent = "Enviando...";
+          submitBtn.textContent = "Enviando..."; // Altera o texto se necessário
+
+          // O envio do formulário continua normalmente
         });
     </script>
   </body>
