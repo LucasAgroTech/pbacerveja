@@ -80,19 +80,29 @@ form {
     margin-left: 10px;
 }
 
+/* Estilos básicos para formatação de campos de formulário */
 .form-group input[type="text"],
 .form-group input[type="url"],
 .form-group select,
 .form-group textarea,
 .form-group input[type="number"],
 .form-group input[type="email"],
-.form-group input[type="date"] { /* Inclui input de data aqui */
+.form-group input[type="date"] {
     width: 100%; /* Faz com que todos os inputs ocupem a largura total disponível */
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box;
-    margin-bottom: 10px;
+    padding: 12px; /* Espaçamento interno para melhor tocabilidade */
+    border: 1px solid #ccc; /* Borda sutil */
+    border-radius: 8px; /* Bordas arredondadas para estilo iOS */
+    box-sizing: border-box; /* Garante que padding não adicione largura extra */
+    margin-bottom: 16px; /* Espaçamento entre campos */
+    background-color: #fff; /* Cor de fundo branca para clareza */
+    color: #333; /* Cor de texto escura para contraste */
+    font-size: 16px; /* Tamanho de fonte legível */
+    -webkit-appearance: none; /* Remove estilização padrão no iOS */
+}
+
+/* Estilo específico para o campo de data */
+.form-group input[type="date"] {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; /* Fonte padrão para iOS */
 }
 
 

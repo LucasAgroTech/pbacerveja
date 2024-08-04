@@ -667,11 +667,11 @@
         }
       }
       function mascaraCEP(input) {
-        var valor = input.value.replace(/\D/g, ""); // Remove todos os caracteres que não são dígitos
+        var valor = input.value.replace(/\D/g, "");
         if (valor.length > 8) {
-          valor = valor.slice(0, 8); // Limita o CEP a 8 dígitos
+          valor = valor.slice(0, 8);
         }
-        input.value = valor.replace(/^(\d{5})(\d)/, "$1-$2"); // Aplica a máscara de CEP
+        input.value = valor.replace(/^(\d{5})(\d)/, "$1-$2");
       }
       function mostrarInputOutro() {
         var checkboxOutro = document.getElementById("outroCheckbox");
@@ -701,7 +701,7 @@
             confirmButtonText: "Ok",
           }).then((result) => {
             if (result.isConfirmed) {
-              window.location.reload(); // Recarrega a página após clicar em "Ok"
+              window.location.reload();
             }
           });
         }
