@@ -246,6 +246,12 @@ def download_pdf(inscricao_id):
     )
 
 
+@app.route("/ficha_inscricao/<int:id>", methods=["GET"])
+def ficha_inscricao(id):
+    inscricao = Inscricao.query.get_or_404(id)
+    return render_template("ficha_inscricao.html", inscricao=inscricao)
+
+
 def create_pdf(data, logo_path):
     buffer = io.BytesIO()
     doc = SimpleDocTemplate(
